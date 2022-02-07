@@ -7,8 +7,8 @@ const app = express()
 const server = createServer(app)
 app.use(express.json())
 
-const danmakuServer = new WebsocketServer({ server, path: '/danmaku' })
+const controlServer = new WebsocketServer({ server, path: '/control' })
 
 app.get('/api/getModel3D', readModel3D)
 
-export { server, danmakuServer }
+export { server, controlServer }

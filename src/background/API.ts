@@ -3,7 +3,7 @@ import * as fs from 'fs'
 import db from './database'
 
 export function readModel3D (_req: Request, res: Response): void {
-  if (db.has('modelPath')) { res.send(fs.readFileSync(db.get('modelPath'))) } else { res.send(fs.readFileSync('/home/xys/下载/untitled_double_ponytail.vrm')) }
+  if (db.has('modelPath')) { res.send(fs.readFileSync(db.get('modelPath') as string)) } else { res.send(fs.readFileSync('/home/xys/下载/untitled_double_ponytail.vrm')) }
 }
 
 export function setModelPath (req: Request, res: Response): void {
