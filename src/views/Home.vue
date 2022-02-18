@@ -2,11 +2,12 @@
   <div class="home">
     <img alt="Vue logo" src="../assets/logo.png" />
     <el-button @click="test">测试</el-button>
+    <input type="file" ref="upload">
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 import { ElButton } from 'element-plus'
 
 export default defineComponent({
@@ -15,11 +16,21 @@ export default defineComponent({
     ElButton
   },
   setup () {
+    const upload = ref()
     const test = () => {
-      window.control.reloadModel()
+      const file = upload.value.files[0]
+      const reader = new FileReader()
+
+      reader.addEventListener('load', () => {
+        window.control.setNewModel(reader.result as string)
+      })
+
+      if (file) {
+        reader.readAsDataURL(file)
+      }
     }
 
-    return { test }
+    return { test, upload }
   }
 })
 </script>

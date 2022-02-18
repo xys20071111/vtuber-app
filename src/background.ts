@@ -1,10 +1,11 @@
 'use strict'
 
+import path from 'path'
 import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import { controlServer, server } from './background/app'
-import path from 'path'
+import * as fs from 'fs'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -87,6 +88,14 @@ if (isDevelopment) {
   }
 }
 
-ipcMain.on('command', (event, msg) => {
-  controlServer.clients.forEach(v => v.send(msg))
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ipcMain.on('reload-model', (_event) => {
+  controlServer.clients.forEach(v => v.send(JSON.stringify({ cmd: 'reload-model', data: '' })))
+})
+
+// eslint-disable-next-line @typescript-eslint/no-unused-vars
+ipcMain.on('set-new-model', (_event, file: string) => {
+  const modelBuffer = Buffer.from(file.replace('data:model/vrml;base64,', ''), 'base64')
+  fs.writeFileSync('./latest.vrm', modelBuffer)
+  controlServer.clients.forEach(v => v.send(JSON.stringify({ cmd: 'reload-model', data: '' })))
 })
