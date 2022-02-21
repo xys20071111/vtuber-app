@@ -99,3 +99,7 @@ ipcMain.on('set-new-model', (_event, file: string) => {
   fs.writeFileSync('./latest.vrm', modelBuffer)
   controlServer.clients.forEach(v => v.send(JSON.stringify({ cmd: 'reload-model', data: '' })))
 })
+
+ipcMain.on('set-new-background', (_event, data) => {
+  console.log(data)
+})

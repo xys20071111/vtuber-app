@@ -6,5 +6,8 @@ contextBridge.exposeInMainWorld('control', {
   },
   setNewModel: (data) => {
     ipcRenderer.send('set-new-model', data)
+  },
+  setNewBackground: (data) => {
+    ipcRenderer.send('set-new-background', JSON.stringify(data))
   }
 })

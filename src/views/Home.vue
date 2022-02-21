@@ -1,24 +1,21 @@
 <template>
   <div class="home">
-    <img alt="Vue logo" src="../assets/logo.png" />
-    <el-button @click="test">测试</el-button>
-    <input type="file" ref="upload">
+    <open-file :onUpload="uploadModel" />
+    <open-file desrc="打开图片" accept="image/*" :onUpload="uploadImage" />
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref } from 'vue'
-import { ElButton } from 'element-plus'
+import { defineComponent } from 'vue'
+import OpenFile from '@/components/OpenFile.vue'
 
 export default defineComponent({
   name: 'Home',
   components: {
-    ElButton
+    OpenFile
   },
   setup () {
-    const upload = ref()
-    const test = () => {
-      const file = upload.value.files[0]
+    const uploadModel = (file: File) => {
       const reader = new FileReader()
 
       reader.addEventListener('load', () => {
@@ -30,7 +27,22 @@ export default defineComponent({
       }
     }
 
-    return { test, upload }
+    const uploadImage = (file: File) => {
+      const reader = new FileReader()
+
+      reader.addEventListener('load', () => {
+        window.control.setNewBackground({
+          type: 'img',
+          data: reader.result as string
+        })
+      })
+
+      if (file) {
+        reader.readAsDataURL(file)
+      }
+    }
+
+    return { uploadModel, uploadImage }
   }
 })
 </script>
