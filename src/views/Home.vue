@@ -1,7 +1,10 @@
 <template>
   <div class="home">
     <open-file :onUpload="uploadModel" />
-    <open-file desrc="打开图片" accept="image/*" :onUpload="uploadImage" />
+    <open-file desrc="打开图片"
+      accept="image/*"
+      :onUpload="uploadImage"
+    />
   </div>
 </template>
 

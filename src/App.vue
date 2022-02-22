@@ -1,7 +1,7 @@
 <template>
   <el-container>
-    <el-header></el-header>
-    <el-aside></el-aside>
+    <el-header>Vtuber</el-header>
+    <el-aside>这里应该是侧栏</el-aside>
     <el-main>
       <router-view />
     </el-main>

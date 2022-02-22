@@ -1,7 +1,10 @@
 <template>
   <div class="set-model">
     {{text}}
-    <input type="file" ref="upload" :accept="acceptType">
+    <input ref="upload"
+      type="file"
+      :accept="acceptType"
+    />
     <el-button @click="uploadFile">打开</el-button>
   </div>
 </template>
