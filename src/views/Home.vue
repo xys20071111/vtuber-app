@@ -5,17 +5,20 @@
       accept="image/*"
       :onUpload="uploadImage"
     />
+    <change-color />
   </div>
 </template>
 
 <script lang="ts">
 import { defineComponent } from 'vue'
 import OpenFile from '@/components/OpenFile.vue'
+import ChangeColor from '@/components/ChangeColor.vue'
 
 export default defineComponent({
   name: 'Home',
   components: {
-    OpenFile
+    OpenFile,
+    ChangeColor
   },
   setup () {
     const uploadModel = (file: File) => {
