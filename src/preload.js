@@ -9,5 +9,8 @@ contextBridge.exposeInMainWorld('control', {
   },
   setNewBackground: (data) => {
     ipcRenderer.send('set-new-background', data)
+  },
+  sendLandmarks: (data) => {
+    ipcRenderer.send('landmarks', data)
   }
 })

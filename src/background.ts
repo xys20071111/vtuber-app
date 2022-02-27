@@ -103,3 +103,7 @@ ipcMain.on('set-new-model', (_event, file: string) => {
 ipcMain.on('set-new-background', (_event, data) => {
   controlServer.clients.forEach(v => v.send(JSON.stringify({ cmd: 'set-new-background', data })))
 })
+
+ipcMain.on('landmarks', (_event, data) => {
+  controlServer.clients.forEach(v => v.send(JSON.stringify({ cmd: 'set-pose', data })))
+})
