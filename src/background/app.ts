@@ -1,4 +1,5 @@
 import express from 'express'
+import cors from 'cors'
 import { createServer } from 'http'
 import { Server as WebsocketServer } from 'ws'
 import { readModel3D } from './API'
@@ -6,6 +7,8 @@ import { readModel3D } from './API'
 const app = express()
 const server = createServer(app)
 app.use(express.json())
+app.use(cors({ origin: '*' }))
+app.use(express.static('./dist'))
 
 const controlServer = new WebsocketServer({ server, path: '/control' })
 

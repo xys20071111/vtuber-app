@@ -12,7 +12,7 @@ import { Holistic } from '@mediapipe/holistic'
 export default defineComponent({
   setup () {
     const holistic = new Holistic({
-      locateFile: (file) => { return `/static/${file}` }
+      locateFile: (file) => { return `http://127.0.0.1:8008/static/${file}` }
     })
     holistic.setOptions({
       modelComplexity: 1,
