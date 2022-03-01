@@ -4,7 +4,7 @@
 
 <script lang="ts">
 import { PoseData } from '@/renderer'
-import { TFace, TPose, Face, Pose, Vector, Utils, Hand, THand } from 'kalidokit'
+import { TFace, TPose, Face, Pose, Hand, THand } from 'kalidokit'
 import { defineComponent, onMounted } from 'vue'
 import { Camera } from '@mediapipe/camera_utils'
 import { Holistic } from '@mediapipe/holistic'
@@ -12,7 +12,7 @@ import { Holistic } from '@mediapipe/holistic'
 export default defineComponent({
   setup () {
     const holistic = new Holistic({
-      locateFile: (file) => { return `http://127.0.0.1:8008/static/${file}` }
+      locateFile: (file) => { return `/static/${file}` }
     })
     holistic.setOptions({
       modelComplexity: 1,
