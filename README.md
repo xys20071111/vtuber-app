@@ -1,5 +1,5 @@
 # vtuber-app
-
+应用中内置的模型来自 [这里](https://hub.vroid.com/en/characters/6886765124862110421/models/2041560349925018344)
 ## Project setup
 ```
 yarn install
