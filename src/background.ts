@@ -20,7 +20,7 @@ async function createWindow () {
     width: 1024,
     height: 768,
     webPreferences: {
-
+      backgroundThrottling: false,
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: (process.env
@@ -39,9 +39,13 @@ async function createWindow () {
     // Load the index.html when not in development
     win.loadURL('app://./index.html')
   }
-  server.listen(8008, '127.0.0.1', () => console.log('Listening on 127.0.0.1:8008'))
+  server.listen(8008, '0.0.0.0', () => console.log('Listening on 127.0.0.1:8008'))
+  win.on('closed', () => {
+    if (process.platform !== 'darwin') {
+      app.quit()
+    }
+  })
 }
-
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
@@ -61,15 +65,6 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
-    // Install Vue Devtools
-    try {
-      await installExtension(VUEJS3_DEVTOOLS)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      console.error('Vue Devtools failed to install:', e.toString())
-    }
-  }
   createWindow()
 })
 
