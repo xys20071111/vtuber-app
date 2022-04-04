@@ -3,7 +3,6 @@
 import path from 'path'
 import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
-import installExtension, { VUEJS3_DEVTOOLS } from 'electron-devtools-installer'
 import { controlServer, server } from './background/app'
 import * as fs from 'fs'
 
@@ -40,8 +39,12 @@ async function createWindow () {
     win.loadURL('app://./index.html')
   }
   server.listen(8008, '127.0.0.1', () => console.log('Listening on 127.0.0.1:8008'))
+  win.on('closed', () => {
+    if (process.platform !== 'darwin') {
+      app.quit()
+    }
+  })
 }
-
 // Quit when all windows are closed.
 app.on('window-all-closed', () => {
   // On macOS it is common for applications and their menu bar
@@ -61,15 +64,6 @@ app.on('activate', () => {
 // initialization and is ready to create browser windows.
 // Some APIs can only be used after this event occurs.
 app.on('ready', async () => {
-  if (isDevelopment && !process.env.IS_TEST) {
-    // Install Vue Devtools
-    try {
-      await installExtension(VUEJS3_DEVTOOLS)
-      // eslint-disable-next-line @typescript-eslint/no-explicit-any
-    } catch (e: any) {
-      console.error('Vue Devtools failed to install:', e.toString())
-    }
-  }
   createWindow()
 })
 
@@ -95,7 +89,8 @@ ipcMain.on('reload-model', (_event) => {
 
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ipcMain.on('set-new-model', (_event, file: string) => {
-  const modelBuffer = Buffer.from(file.replace('data:model/vrml;base64,', ''), 'base64')
+  console.log(file.slice(0, 30))
+  const modelBuffer = Buffer.from(file.replace('data:model/vrm;base64,', ''), 'base64')
   fs.writeFileSync('./latest.vrm', modelBuffer)
   controlServer.clients.forEach(v => v.send(JSON.stringify({ cmd: 'reload-model', data: '' })))
 })

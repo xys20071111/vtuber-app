@@ -8,7 +8,7 @@ const app = express()
 const server = createServer(app)
 app.use(express.json())
 app.use(cors({ origin: '*' }))
-app.use(express.static('./dist'))
+app.use(express.static('./3d'))
 
 const controlServer = new WebsocketServer({ server, path: '/control' })
 
