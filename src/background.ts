@@ -19,7 +19,7 @@ async function createWindow () {
     width: 1024,
     height: 768,
     webPreferences: {
-
+      backgroundThrottling: false,
       // Use pluginOptions.nodeIntegration, leave this alone
       // See nklayman.github.io/vue-cli-plugin-electron-builder/guide/security.html#node-integration for more info
       nodeIntegration: (process.env
@@ -39,6 +39,7 @@ async function createWindow () {
     win.loadURL('app://./index.html')
   }
   server.listen(8008, '127.0.0.1', () => console.log('Listening on 127.0.0.1:8008'))
+
   win.on('closed', () => {
     if (process.platform !== 'darwin') {
       app.quit()
