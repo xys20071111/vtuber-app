@@ -1,16 +1,13 @@
 <template>
   <div class="set-model">
-    {{text}}
-    <input ref="upload"
-      type="file"
-      :accept="acceptType"
-    />
+    {{ text }}
+    <input hidden ref="upload" type="file" :accept="acceptType" />
     <el-button @click="uploadFile">打开</el-button>
   </div>
 </template>
 
 <script lang="ts">
-import { defineComponent, ref, toRefs } from 'vue'
+import { defineComponent, onMounted, ref, toRefs } from 'vue'
 import { ElButton } from 'element-plus'
 
 export default defineComponent({
@@ -37,10 +34,22 @@ export default defineComponent({
   setup (props) {
     const { accept, desrc, onUpload } = toRefs(props)
     const upload = ref()
-    const uploadFunction = () => {
-      onUpload.value(upload.value.files[0])
+
+    const uploadFunction = ref()
+    onMounted(() => {
+      upload.value.addEventListener('change', () => {
+        onUpload.value(upload.value.files[0])
+      })
+      uploadFunction.value = () => {
+        upload.value.click()
+      }
+    })
+    return {
+      uploadFile: uploadFunction,
+      upload,
+      acceptType: accept,
+      text: desrc
     }
-    return { uploadFile: uploadFunction, upload, acceptType: accept, text: desrc }
   }
 })
 </script>

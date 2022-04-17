@@ -1,5 +1,6 @@
 <template>
   <video hidden ref="captureVideo"></video>
+  面捕控制<br/>
   <el-button @click="startCapture">启动面捕</el-button>
   <el-button @click="stopCapture">停止面捕</el-button>
 </template>

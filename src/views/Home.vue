@@ -5,7 +5,8 @@
       accept="image/*"
       :onUpload="uploadImage"
     />
-    <change-color />
+    <label for="change-color">调整背景颜色</label>
+    <change-color id="change-color"/>
     <face-capture />
   </div>
 </template>
