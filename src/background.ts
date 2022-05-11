@@ -4,7 +4,7 @@ import path from 'path'
 import { app, protocol, BrowserWindow, ipcMain } from 'electron'
 import { createProtocol } from 'vue-cli-plugin-electron-builder/lib'
 import { controlServer, server } from './background/app'
-import * as fs from 'fs'
+import fs from 'fs'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
@@ -96,8 +96,9 @@ ipcMain.on('set-new-model', (_event, file: string) => {
   controlServer.clients.forEach(v => v.send(JSON.stringify({ cmd: 'reload-model', data: '' })))
 })
 
-ipcMain.on('set-new-background', (_event, data) => {
-  controlServer.clients.forEach(v => v.send(JSON.stringify({ cmd: 'set-new-background', data })))
+ipcMain.on('set-new-background', (_event, msg) => {
+  controlServer.clients.forEach(v => v.send(JSON.stringify({ cmd: 'set-new-background', data: msg })))
+  fs.writeFileSync('./background.json', JSON.stringify(msg))
 })
 
 ipcMain.on('landmarks', (_event, data) => {
