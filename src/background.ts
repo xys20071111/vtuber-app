@@ -8,6 +8,7 @@ import fs from 'fs'
 
 const isDevelopment = process.env.NODE_ENV !== 'production'
 
+app.commandLine.appendSwitch('force_high_performance_gpu', 'true')
 // Scheme must be registered before the app is ready
 protocol.registerSchemesAsPrivileged([
   { scheme: 'app', privileges: { secure: true, standard: true, supportFetchAPI: true } }
@@ -91,7 +92,7 @@ ipcMain.on('reload-model', (_event) => {
 // eslint-disable-next-line @typescript-eslint/no-unused-vars
 ipcMain.on('set-new-model', (_event, file: string) => {
   console.log(file.slice(0, 30))
-  const modelBuffer = Buffer.from(file.replace('data:model/vrm;base64,', ''), 'base64')
+  const modelBuffer = Buffer.from(file.split(',')[1], 'base64')
   fs.writeFileSync('./latest.vrm', modelBuffer)
   controlServer.clients.forEach(v => v.send(JSON.stringify({ cmd: 'reload-model', data: '' })))
 })
