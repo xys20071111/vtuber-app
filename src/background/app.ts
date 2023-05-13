@@ -14,6 +14,7 @@ app.use(express.static('./3d'))
 const controlServer = new WebsocketServer({ server, path: '/control' })
 controlServer.on('connection', (socket) => {
   if (fs.existsSync('./background.json')) { socket.send(JSON.stringify({ cmd: 'set-new-background', data: JSON.parse(fs.readFileSync('./background.json', { encoding: 'utf-8' })) })) }
+  if (fs.existsSync('./cam-pos.json')) { socket.send(JSON.stringify({ cmd: 'set-cam-pos', data: JSON.parse(fs.readFileSync('./cam-pos.json', { encoding: 'utf-8' })) })) }
 })
 
 app.get('/api/getModel3D', readModel3D)

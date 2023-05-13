@@ -29,4 +29,5 @@ config.json
 latest.vrm
 color.txt
 background.json
+cam-pos.json
 3d

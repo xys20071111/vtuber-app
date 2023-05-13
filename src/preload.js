@@ -12,5 +12,8 @@ contextBridge.exposeInMainWorld('control', {
   },
   sendLandmarks: (data) => {
     ipcRenderer.send('landmarks', data)
+  },
+  setCamPosition: (data) => {
+    ipcRenderer.send('set-cam-pos', data)
   }
 })

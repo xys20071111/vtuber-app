@@ -16,6 +16,7 @@ export interface IBackgroundAPI {
   reloadModel: () => void
   setNewModel: (data: string) => void
   setNewBackground: (data: sceneBackground) => void
+  setCamPosition: (pos: camPos) => void
   sendLandmarks: (data) => void
 }
 

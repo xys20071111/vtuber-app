@@ -38,7 +38,7 @@ export default defineComponent({
     const uploadFunction = ref()
     onMounted(() => {
       upload.value.addEventListener('change', () => {
-        onUpload.value(upload.value.files[0])
+        if (onUpload.value) { onUpload.value(upload.value.files[0]) }
       })
       uploadFunction.value = () => {
         upload.value.click()

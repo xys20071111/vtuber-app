@@ -105,3 +105,35 @@ ipcMain.on('set-new-background', (_event, msg) => {
 ipcMain.on('landmarks', (_event, data) => {
   controlServer.clients.forEach(v => v.send(JSON.stringify({ cmd: 'set-pose', data })))
 })
+
+interface CamData { x: number, y: number, z: number }
+
+if(!fs.existsSync('./cam-pos.json')) {
+  fs.writeFileSync('./cam-pos.json', '{}')
+}
+
+const camdata: CamData = JSON.parse(fs.readFileSync('./cam-pos.json', { encoding: 'utf-8' })) || {
+  x: 0,
+  y: 0,
+  z: 0
+}
+
+ipcMain.on('set-cam-pos', (_event, data) => {
+  controlServer.clients.forEach(v => v.send(JSON.stringify({ cmd: 'set-cam-pos', data })))
+  for (const k in data) {
+    switch (k) {
+      case 'x':
+        camdata.x = data.x
+        break
+      case 'y':
+        camdata.y = data.y
+        break
+      case 'z':
+        camdata.z = data.z
+        break
+      default:
+        break
+    }
+  }
+  fs.writeFile('./cam-pos.json', JSON.stringify(camdata), () => {})
+})
